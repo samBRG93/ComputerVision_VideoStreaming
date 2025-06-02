@@ -29,7 +29,6 @@ void DownloadFile(SOCKET Socket) {
 		return;
 	}
 	while (1) {
-
 		char localfile[1024] = "localfile";
 		char filename[1024] = "localfile";
 		send(Socket, filename, sizeof(filename), 0);
@@ -37,7 +36,6 @@ void DownloadFile(SOCKET Socket) {
 		recv(Socket, GotFileSize, 1024, 0);
 		long FileSize = atoi(GotFileSize);
 		long SizeCheck = 0;
-		//FILE *fp = fopen(localfile, "w");
 		FILE *fp;
 		fopen_s(&fp, localfile, "w");
 		char* mfcc;
@@ -64,10 +62,7 @@ void DownloadFile(SOCKET Socket) {
 }
 
 
-
-int main()
-{  
-	
+int main() {
 	//recupera lista di films 
 	vector<string> List_of_films; 
 	string path = "CV_DATASET"; //"\\Users\\samuele\\Documents\\films"; 
@@ -146,15 +141,14 @@ int main()
 
 			
 
-			cout<<"film path" << FilmPath << endl;
+			cout << "film path" << FilmPath << endl;
 
 			strcpy_s(name, (FilmPath).c_str());
 			sprintf_s(name, "%s", name);
 			sprintf_s(BitRate_Str, "%d", BitRate);
 
-			// invio lo stream 
-			
-			cout<<"path: " << path << endl;
+			// invio lo stream
+			cout << "path: " << path << endl;
 
 			//read video 
 			VideoCapture cap(FilmPath);
@@ -190,18 +184,13 @@ int main()
 			recv(newConnection, (char*)&Modality, sizeof(Modality), NULL);
 			cout << "ho ricevuto la modalita': " <<Modality<< endl;
 
-
-			//jpeg encode 
+			//jpeg encode
 			vector<uchar> buf;
 			vector<int> params = vector<int>(2);
 			params[0] = 1;
 			params[1] = 100; //full quality
 
-
-		
-			
 			if(Modality == 1){
-
 				cout << "sono in modality" << endl;
 				//receive compression rate
 				int Bit_Rate=0;
@@ -215,9 +204,7 @@ int main()
 				cout << Command << endl;
 				//while (1);
 
-
 				system(Command.c_str());
-
 			}
 			else {
 				// receive quality factor 
@@ -231,9 +218,6 @@ int main()
 				params[1] = QualityFactor; //10 
 				
 				int bufSize = 1;
-				//fill the first frame
-				//cap >> imgGray;
-
 				while (cap.isOpened()) {
 
 					/* get a frame from camera */
@@ -260,8 +244,6 @@ int main()
 						break;
 					}
 
-
-
 					waitKey(5);
 					int k = waitKey(1);
 					if (k == 27)
@@ -270,25 +252,15 @@ int main()
 					}
 
 				}
-				//checking if the frame is empty 
-				
-					
+				//checking if the frame is empty
 				// reach to the end of the video file
 				bufSize = 0;
 				send(newConnection, (char*)&bufSize, sizeof(bufSize), 0);
-				
-			
-				
 			}
-
-			
-	
 	}
 }
-
 	remove("output.mp4");
 	cout << "ended program" << endl;
-	//system("pause");
 	return 0;
 }
 
